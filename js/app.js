@@ -53,7 +53,9 @@ function dumpBoard(){
         let cells = Array.from(row.cells);
         x= 0;
         cells.forEach(cell => { 
-            cell.textContent = board[y][x];
+            if(board[y][x]){
+                cell.textContent = board[y][x];
+            }
             x++;
         } );
         y++;
