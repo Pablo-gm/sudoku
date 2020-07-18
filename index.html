@@ -21,6 +21,7 @@
             box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14);
             padding: 1rem;
             display: inline-block;
+            border-radius: .25rem;
         }
         .sudoku__board{
             border-collapse: collapse;
@@ -51,6 +52,41 @@
         .sudoku__board td:nth-child(3n){
             border-right-color: rgba(0, 0, 0, .80);
         }
+        .btn{
+            line-height: 2rem;
+            position: relative;
+            display: inline-block;
+            font-weight: 400;
+            white-space: nowrap;
+            text-align: center;
+            height: 2rem;
+            padding: 0 1rem;
+            font-size: 0.875rem;
+            border-radius: .125rem;
+            transition: all 0.3s;
+            box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14);
+            cursor: pointer;
+        }
+
+        .btn--primary{
+            color: #fff;
+            background: #274690;
+            border-color: #274690;
+        }
+        .btn--primary:hover{
+            background-color: #576CA8;
+            border-color: #576CA8;
+        }
+        .mt--2{
+            margin-top: 2rem;
+        }
+        /*
+        Possible colors: ant
+        
+        #1b264f, #274690, #fabd5b, #576ca8, #302b27
+
+        */
+
     </style>
     <div class="text--center">
         <h1>Sudoku</h1>
@@ -157,6 +193,10 @@
                 </tr>
             </table>
         </div>
+        <div class="mt--2 text--center">
+            <span class="btn btn--primary">Start</span>
+        </div>
+        
     </div>
 
 
