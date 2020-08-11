@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sudoku</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
 </head>
 <body>
     <style>
         body{
-            background-color: #fabd5b;
-            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            font-family: 'Heebo', sans-serif;
         }
         .text--center{
             text-align: center;
@@ -22,6 +23,7 @@
             padding: 1rem;
             display: inline-block;
             border-radius: .25rem;
+            border-bottom: .25rem solid #e3e3e3;
         }
         .sudoku__board{
             border-collapse: collapse;
@@ -53,37 +55,56 @@
             border-right-color: rgba(0, 0, 0, .80);
         }
         .btn{
-            line-height: 2rem;
+            line-height: 2.5rem;
             position: relative;
             display: inline-block;
             font-weight: 400;
             white-space: nowrap;
             text-align: center;
-            height: 2rem;
+            height: 2.5rem;
             padding: 0 1rem;
-            font-size: 0.875rem;
-            border-radius: .125rem;
+            font-size: 1rem;
+            border-radius: .25rem;
             transition: all 0.3s;
             box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14);
             cursor: pointer;
+            letter-spacing: .02em;
         }
 
         .btn--primary{
             color: #fff;
-            background: #274690;
-            border-color: #274690;
+            background: #5557c4;
+            border-bottom: .25rem solid #1a1b4b;
         }
         .btn--primary:hover{
-            background-color: #576CA8;
-            border-color: #576CA8;
+            background-color: #7a7cd1;
         }
         .mt--2{
             margin-top: 2rem;
         }
+
+        .mb--3{
+            margin-bottom: 3rem;
+        }
+
+        /* Range slider  check mat and ant */
+
+
         /*
-        Possible colors: ant
+        Possible colors: 
         
         #1b264f, #274690, #fabd5b, #576ca8, #302b27
+
+        https://mdigi.tools/color-shades/#1a1b4b
+        #1a1b4b  #5557c4   #7a7cd1
+        #f8a520  #fbcd83   #fde1b5
+        #496DDB
+        #F44174
+        #BA2C73
+        #41EAD4
+        #419D78
+
+
 
         */
 
@@ -194,7 +215,9 @@
             </table>
         </div>
         <div class="mt--2 text--center">
-            <span class="btn btn--primary">Start</span>
+            <span class="btn btn--primary">Generate</span>
+            <br>
+            <input type="range" min="10" max="30" class="mt--2">
         </div>
         
     </div>
