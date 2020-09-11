@@ -10,7 +10,7 @@
 <body>
     <style>
         body{
-            background-color: #f9f9f9;
+            background-color: #f8a521;
             font-family: 'Heebo', sans-serif;
         }
         .text--center{
@@ -18,16 +18,17 @@
         }
         .card{
             background: #fff;
-            width: auto;
-            box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14);
+            width: max-content;
+            /* box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14); */
             padding: 1rem;
-            display: inline-block;
+            margin: auto;
+            display: block;
             border-radius: .25rem;
-            border-bottom: .25rem solid #e3e3e3;
+            box-shadow: 0 .25rem 0 #d6d6d6;
         }
         .sudoku__board{
             border-collapse: collapse;
-            color: rgba(0, 0, 0, .80);
+            color: #999999;
         }
         .sudoku__board td{
             width: 2rem;
@@ -35,25 +36,34 @@
             font-size: 1.5rem;
             line-height: 2rem;
             text-align: center;
-            border: 2px solid rgba(0, 0, 0, .12);
+            border: 1px solid #ebebeb;
         }
 
         .sudoku__board tr:nth-child(1) td{
-            border-top-color: rgba(0, 0, 0, .80);
+            border-top-color: #333333;
+            border-top-width: 2px;
             border-right: none;
         }
         .sudoku__board tr:nth-child(3n+1) td:last-child{
-            border-right:  2px solid rgba(0, 0, 0, .80);
+            border-right:  2px solid #333333;
         }
         .sudoku__board tr:nth-child(3n) td{
-            border-bottom: 2px solid rgba(0, 0, 0, .80);
+            border-bottom: 2px solid #333333;
         }
         .sudoku__board td:nth-child(3n+1){
-            border-left-color: rgba(0, 0, 0, .80);
+            border-left-color: #333333;
+            border-left-width: 2px;
         }
         .sudoku__board td:nth-child(3n){
-            border-right-color: rgba(0, 0, 0, .80);
+            border-right-color: #333333;
+            border-right-width: 2px;
         }
+
+        .soduku__answered{
+            background-color: #fff;
+            color: purple;
+        }
+
         .btn{
             line-height: 2.5rem;
             position: relative;
@@ -104,9 +114,32 @@
         #41EAD4
         #419D78
 
-
+        333333	474747	5C5C5C	707070	858585	999999	ADADAD	C2C2C2	D6D6D6	EBEBEB	FFFFFF
 
         */
+
+        /* Chips */
+        .chip__container{
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .chip__item{
+            background-color: white;
+            color: #333333;
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
+            box-shadow: 0 .25rem 0 #d6d6d6; 
+            margin: 0 .25rem;
+            border-radius: .125rem;
+        }
+
+        .chip__item--disabled{
+            background-color: #ebebeb;
+            color: #999;
+        }
 
     </style>
     <div class="text--center">
@@ -214,6 +247,39 @@
                 </tr>
             </table>
         </div>
+
+
+        <div class="chip__container">
+            <div class="chip__item">
+                1
+            </div>
+            <div class="chip__item chip__item--disabled">
+                2
+            </div>
+            <div class="chip__item">
+                3
+            </div>
+            <div class="chip__item">
+                4
+            </div>
+            <div class="chip__item">
+                5
+            </div>
+            <div class="chip__item">
+                6
+            </div>
+            <div class="chip__item">
+                7
+            </div>
+            <div class="chip__item">
+                8
+            </div>
+            <div class="chip__item">
+                9
+            </div>
+        </div>
+
+
         <div class="mt--2 text--center">
             <span class="btn btn--primary">Generate</span>
             <br>
