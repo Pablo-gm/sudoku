@@ -11,15 +11,15 @@ var baseBoard = [
 ];
 
 var baseBoard2 = [
-    [1,2,0,4,5,6,7,8,9],
-    [4,5,0,7,8,9,1,2,0],
-    [0,8,9,1,2,3,4,5,6],
-    [2,3,4,5,6,7,8,9,1],
-    [5,6,7,8,9,1,2,3,4],
-    [8,9,0,2,3,4,5,6,7],
-    [3,4,5,6,7,8,9,1,2],
-    [6,7,8,9,1,2,3,4,5],
-    [9,1,2,3,4,5,6,7,8]
+    [1,2,0,4,0,6,7,0,9],
+    [0,5,0,7,8,0,1,2,0],
+    [0,8,9,1,2,0,4,5,6],
+    [2,0,4,5,0,7,8,0,1],
+    [0,6,7,8,0,1,2,3,0],
+    [8,9,0,2,3,4,5,0,7],
+    [0,4,5,0,7,8,0,1,2],
+    [6,7,8,9,0,2,3,4,0],
+    [9,0,2,3,4,5,0,7,8]
 ];
 
 var board = baseBoard2;
@@ -55,11 +55,28 @@ function dumpBoard(){
         cells.forEach(cell => { 
             if(board[y][x]){
                 cell.textContent = board[y][x];
+                cell.classList.add('sudoku__prefill');
             }
             x++;
         } );
         y++;
     });
+}
+
+// Add guide classes to board
+function addGuides(posX, posY){
+
+    let rows = Array.from(document.getElementById('board').rows);
+    let quadrantX = (posX/3|0)*3;
+    let quadrantY = (posY/3|0)*3;
+
+    for(let i = 0; i < 9; i++){
+        rows[i].cells[posX].classList.add('sudoku__guide');
+        rows[posY].cells[i].classList.add('sudoku__guide');
+        rows[quadrantY + (i/3|0) ].cells[quadrantX + (i % 3)].classList.add('sudoku__guide');
+    }
+
+    rows[posY].cells[posX].classList.add('sudoku__working');
 }
 
 // modify to return options and quadrants... or what's needed
@@ -87,7 +104,7 @@ function checkFilledOptions(x,y){
     return options;
 }
 
-function evaluateBoard(){
+function evaluateBoard(){ 
     let xValues = {};
     let yValues = {};
     let qValues = {};

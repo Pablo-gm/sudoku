@@ -6,29 +6,15 @@
     <title>Sudoku</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
     <style>
-        body{
-            background-color: #f8a521;
-            font-family: 'Heebo', sans-serif;
-        }
-        .text--center{
-            text-align: center;
-        }
-        .card{
-            background: #fff;
-            width: max-content;
-            /* box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14); */
-            padding: 1rem;
-            margin: auto;
-            display: block;
-            border-radius: .25rem;
-            box-shadow: 0 .25rem 0 #d6d6d6;
-        }
+
+
         .sudoku__board{
             border-collapse: collapse;
-            color: #999999;
+            color: #5C5C5C;
         }
         .sudoku__board td{
             width: 2rem;
@@ -36,7 +22,7 @@
             font-size: 1.5rem;
             line-height: 2rem;
             text-align: center;
-            border: 1px solid #ebebeb;
+            border: 1px solid #D6D6D6;
         }
 
         .sudoku__board tr:nth-child(1) td{
@@ -59,36 +45,29 @@
             border-right-width: 2px;
         }
 
-        .soduku__answered{
-            background-color: #fff;
-            color: purple;
+        .sudoku__prefill{
+            background-color: #EBEBEB;
         }
 
-        .btn{
-            line-height: 2.5rem;
-            position: relative;
-            display: inline-block;
-            font-weight: 400;
-            white-space: nowrap;
-            text-align: center;
-            height: 2.5rem;
-            padding: 0 1rem;
-            font-size: 1rem;
-            border-radius: .25rem;
-            transition: all 0.3s;
-            box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14);
-            cursor: pointer;
-            letter-spacing: .02em;
+        .sudoku__guide{
+            background-color: #CBCCED;
+            color: #333333;
         }
 
-        .btn--primary{
-            color: #fff;
-            background: #5557c4;
-            border-bottom: .25rem solid #1a1b4b;
+        .sudoku__filled{
+            color: #4244bd;
         }
-        .btn--primary:hover{
-            background-color: #7a7cd1;
+
+        .sudoku__guide.sudoku__filled{
+            background-color: #8788d5;
+            color: #121334;
         }
+
+        .sudoku__working{
+            background-color: #4244bd;
+            color: #ffffff;
+        }
+
         .mt--2{
             margin-top: 2rem;
         }
@@ -108,17 +87,14 @@
         https://mdigi.tools/color-shades/#1a1b4b
         #1a1b4b  #5557c4   #7a7cd1
         #f8a520  #fbcd83   #fde1b5
-        #496DDB
-        #F44174
-        #BA2C73
-        #41EAD4
-        #419D78
-
+ 
+        Grayscale
         333333	474747	5C5C5C	707070	858585	999999	ADADAD	C2C2C2	D6D6D6	EBEBEB	FFFFFF
 
         */
 
         /* Chips */
+        
         .chip__container{
             display: flex;
             justify-content: center;
@@ -149,11 +125,33 @@
                 <tr>
                     <td></td>
                     <td></td>
+                    <td class="sudoku__filled">3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="sudoku__focus"></td>
+                    <td class="sudoku__focus"></td>
+                </tr>
+                <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="sudoku__focus"></td>
+                    <td class="sudoku__focus"></td>
+                </tr>
+                <tr>
+                    <td class="sudoku__filled">7</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="sudoku__working"></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -173,29 +171,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="sudoku__filled">9</td>
                     <td></td>
                     <td></td>
                     <td></td>
