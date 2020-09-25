@@ -55,7 +55,7 @@ function dumpBoard(){
         cells.forEach(cell => { 
             if(board[y][x]){
                 cell.textContent = board[y][x];
-                cell.classList.add('sudoku__prefill');
+                cell.classList.add('board__cell--prefill');
             }
             x++;
         } );
@@ -71,12 +71,13 @@ function addGuides(posX, posY){
     let quadrantY = (posY/3|0)*3;
 
     for(let i = 0; i < 9; i++){
-        rows[i].cells[posX].classList.add('sudoku__guide');
-        rows[posY].cells[i].classList.add('sudoku__guide');
-        rows[quadrantY + (i/3|0) ].cells[quadrantX + (i % 3)].classList.add('sudoku__guide');
+        rows[i].cells[posX].classList.add('board__cell--guide');
+        rows[posY].cells[i].classList.add('board__cell--guide');
+        rows[quadrantY + (i/3|0) ].cells[quadrantX + (i % 3)].classList.add('board__cell--guide');
     }
 
-    rows[posY].cells[posX].classList.add('sudoku__working');
+    rows[posY].cells[posX].classList.remove('board__cell--filled');
+    rows[posY].cells[posX].classList.add('board__cell--working');
 }
 
 // modify to return options and quadrants... or what's needed

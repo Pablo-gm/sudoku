@@ -11,63 +11,6 @@
 <body>
     <style>
 
-
-        .sudoku__board{
-            border-collapse: collapse;
-            color: #5C5C5C;
-        }
-        .sudoku__board td{
-            width: 2rem;
-            height: 2rem;
-            font-size: 1.5rem;
-            line-height: 2rem;
-            text-align: center;
-            border: 1px solid #D6D6D6;
-        }
-
-        .sudoku__board tr:nth-child(1) td{
-            border-top-color: #333333;
-            border-top-width: 2px;
-            border-right: none;
-        }
-        .sudoku__board tr:nth-child(3n+1) td:last-child{
-            border-right:  2px solid #333333;
-        }
-        .sudoku__board tr:nth-child(3n) td{
-            border-bottom: 2px solid #333333;
-        }
-        .sudoku__board td:nth-child(3n+1){
-            border-left-color: #333333;
-            border-left-width: 2px;
-        }
-        .sudoku__board td:nth-child(3n){
-            border-right-color: #333333;
-            border-right-width: 2px;
-        }
-
-        .sudoku__prefill{
-            background-color: #EBEBEB;
-        }
-
-        .sudoku__guide{
-            background-color: #CBCCED;
-            color: #333333;
-        }
-
-        .sudoku__filled{
-            color: #4244bd;
-        }
-
-        .sudoku__guide.sudoku__filled{
-            background-color: #8788d5;
-            color: #121334;
-        }
-
-        .sudoku__working{
-            background-color: #4244bd;
-            color: #ffffff;
-        }
-
         .mt--2{
             margin-top: 2rem;
         }
@@ -93,45 +36,22 @@
 
         */
 
-        /* Chips */
-        
-        .chip__container{
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .chip__item{
-            background-color: white;
-            color: #333333;
-            width: 2rem;
-            height: 2rem;
-            line-height: 2rem;
-            box-shadow: 0 .25rem 0 #d6d6d6; 
-            margin: 0 .25rem;
-            border-radius: .125rem;
-        }
-
-        .chip__item--disabled{
-            background-color: #ebebeb;
-            color: #999;
-        }
 
     </style>
     <div class="text--center">
         <h1>Sudoku</h1>
         <div class="card">
-            <table id="board" class="sudoku__board">
+            <table id="board" class="board">
                 <tr>
                     <td></td>
                     <td></td>
-                    <td class="sudoku__filled">3</td>
+                    <td class="board__cell--filled">3</td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="sudoku__focus"></td>
-                    <td class="sudoku__focus"></td>
+                    <td class="board__cell--focus"></td>
+                    <td class="board__cell--focus"></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -141,22 +61,11 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="sudoku__focus"></td>
-                    <td class="sudoku__focus"></td>
+                    <td class="board__cell--focus"></td>
+                    <td class="board__cell--focus"></td>
                 </tr>
                 <tr>
-                    <td class="sudoku__filled">7</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="sudoku__working"></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
+                    <td class="board__cell--filled">7</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -171,7 +80,18 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="sudoku__filled">9</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="board__cell--filled">9</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -226,7 +146,7 @@
 
 
         <div class="chip__container">
-            <div class="chip__item">
+            <div class="chip__item chip__item--disabled">
                 1
             </div>
             <div class="chip__item chip__item--disabled">
@@ -235,19 +155,19 @@
             <div class="chip__item">
                 3
             </div>
-            <div class="chip__item">
+            <div class="chip__item chip__item--disabled">
                 4
             </div>
-            <div class="chip__item">
+            <div class="chip__item chip__item--disabled">
                 5
             </div>
-            <div class="chip__item">
+            <div class="chip__item chip__item--disabled">
                 6
             </div>
-            <div class="chip__item">
+            <div class="chip__item chip__item--disabled">
                 7
             </div>
-            <div class="chip__item">
+            <div class="chip__item chip__item--disabled">
                 8
             </div>
             <div class="chip__item">

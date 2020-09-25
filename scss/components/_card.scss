@@ -1,9 +1,9 @@
 .card{
-    background $white;
+    background: $white;
     width: max-content;
     padding: 1rem;
     margin: auto;
     display: block;
     border-radius: .25rem;
-    box-shadow: 0 .25rem 0 $$gray-9;
+    box-shadow: 0 .25rem 0 $gray-1;
 }

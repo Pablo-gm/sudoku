@@ -1,0 +1,26 @@
+.chip{
+    &__container{
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    &__item{
+        background-color: $white;
+        color: $gray-9;
+        width: $cell-unit;
+        height: $cell-unit;
+        font-size: $cell-font;
+        line-height: $cell-unit;
+        box-shadow: 0 .25rem 0 $gray-1; 
+        margin: 0 .25rem;
+        border-radius: .125rem;
+
+        &--disabled{
+            background-color: $gray-1;
+            color: $gray-7;
+        }
+    }
+}
+
+
