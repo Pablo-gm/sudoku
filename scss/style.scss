@@ -1,8 +1,14 @@
+// Vendors
+@import "vendor/__vendor";
+
 // Abstracts
 @import "abstracts/__abstracts";
 
 // Base
 @import "base/__base";
+
+// Layout
+@import "layout/__layout";
 
 // Components
 @import "components/__components";

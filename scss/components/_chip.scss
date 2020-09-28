@@ -12,13 +12,14 @@
         height: $cell-unit;
         font-size: $cell-font;
         line-height: $cell-unit;
-        box-shadow: 0 .25rem 0 $gray-1; 
-        margin: 0 .25rem;
+        box-shadow: 0 .25rem 0 $shadow-up; 
+        margin: 0 .125rem;
         border-radius: .125rem;
 
         &--disabled{
-            background-color: $gray-1;
             color: $gray-7;
+            background-color: $shadow-down;
+            box-shadow: 0 .25rem 0 $shadow-down; 
         }
     }
 }

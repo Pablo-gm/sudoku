@@ -4,22 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sudoku</title>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">  -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> 
+
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
     <style>
-
-        .mt--2{
-            margin-top: 2rem;
-        }
-
-        .mb--3{
-            margin-bottom: 3rem;
-        }
-
-        /* Range slider  check mat and ant */
 
 
         /*
@@ -36,9 +29,9 @@
 
         */
 
-
     </style>
-    <div class="text--center">
+
+    <div class="main text--center">
         <h1>Sudoku</h1>
         <div class="card">
             <table id="board" class="board">
@@ -177,9 +170,38 @@
 
 
         <div class="mt--2 text--center">
-            <span class="btn btn--primary">Generate</span>
-            <br>
-            <input type="range" min="10" max="30" class="mt--2">
+
+            <div class="selection-card__container">
+
+                <div class="selection-card">
+                    <div class="selection-card__text">
+                        Easy
+                    </div>
+                </div>
+        
+                <div class="selection-card selection-card--active">
+                    <div class="selection-card__text">
+                        Medium
+                    </div>
+                    <div class="selection-card__icon">
+                    </div>
+                </div>
+        
+                <div class="selection-card">
+                    <div class="selection-card__text">
+                        Hard
+                    </div>
+                </div>
+        
+                <div class="selection-card">
+                    <div class="selection-card__text">
+                        Very hard
+                    </div>
+                </div>
+        
+                <span class="btn btn--primary w--100">Generate</span>
+        
+            </div>
         </div>
         
     </div>
