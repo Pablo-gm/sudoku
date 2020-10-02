@@ -28,7 +28,9 @@
         333333	474747	5C5C5C	707070	858585	999999	ADADAD	C2C2C2	D6D6D6	EBEBEB	FFFFFF
 
         */
-
+        *, *::before, *::after {
+  box-sizing: inherit;
+}
     </style>
 
     <div class="main text--center">
@@ -199,13 +201,17 @@
                     </div>
                 </div>
         
-                <span class="btn btn--primary w--100">Generate</span>
+                <a href="#" class="btn btn--primary w--100">Generate</a>
         
             </div>
         </div>
         
     </div>
-
+<script>
+    function toggleA(){
+        document.querySelector('.main').classList.toggle('show');
+    }
+</script>
 
     <script src="js/app.js"></script>
 </body>

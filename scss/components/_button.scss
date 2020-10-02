@@ -13,18 +13,20 @@
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14);
     cursor: pointer;
     letter-spacing: .02em;
-}
 
-.btn--primary{
-    color: $white;
-    background: #4244bd;
-    box-shadow: 0 .25rem 0 #121334;
-    transition: all 0.1s;
-}
-.btn--primary:hover{
-    background-color: #2a2b78;
-}
-.btn--primary:active{
-    transform: translateY(.125rem);
-    box-shadow: 0 .125rem #121334;
+    &--primary{
+        color: $white;
+        background: #4244bd;
+        box-shadow: 0 .25rem 0 #121334;
+        transition: all 0.1s;
+
+        &:hover, &:focus{
+            background-color: #2a2b78;
+        }
+
+        &:active{
+            transform: translateY(.125rem);
+            box-shadow: 0 .125rem #121334;
+        }
+    }
 }

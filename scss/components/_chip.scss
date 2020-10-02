@@ -15,6 +15,7 @@
         box-shadow: 0 .25rem 0 $shadow-up; 
         margin: 0 .125rem;
         border-radius: .125rem;
+        transition: all linear .15s;
 
         &--disabled{
             color: $gray-7;

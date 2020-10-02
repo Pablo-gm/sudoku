@@ -9,6 +9,7 @@
         line-height: $cell-unit;
         text-align: center;
         border: 1px solid $gray-1;
+        transition: all linear .1s;
     }
 
     tr:nth-child(1) td{
