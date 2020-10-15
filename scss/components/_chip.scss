@@ -1,8 +1,10 @@
 .chip{
     &__container{
         display: flex;
-        justify-content: center;
-        margin-top: 1rem;
+        width: 25rem;
+        // justify-content: center;
+        justify-content: space-between;
+        margin: 1.25rem auto 2.5rem auto;
     }
     
     &__item{
@@ -12,15 +14,28 @@
         height: $cell-unit;
         font-size: $cell-font;
         line-height: $cell-unit;
-        box-shadow: 0 .25rem 0 $shadow-up; 
+        box-shadow: 0 .25rem 0 $shadow-normal; 
         margin: 0 .125rem;
         border-radius: .125rem;
+        cursor: pointer;
         transition: all linear .15s;
 
-        &--disabled{
+        &:hover, &:focus{
+            box-shadow: 0 .25rem $shadow-hover;
+        }
+
+        &:active{
+            transform: translateY(.125rem);
+            box-shadow: 0 .125rem $shadow-hover;
+        }
+
+        &--done{
             color: $gray-7;
-            background-color: $shadow-down;
-            box-shadow: 0 .25rem 0 $shadow-down; 
+            box-shadow: 0 .25rem 0 $shadow-done; 
+            &:active{
+                transform: translateY(.125rem);
+                box-shadow: 0 .125rem $shadow-done;
+            }
         }
     }
 }

@@ -12,26 +12,6 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-    <style>
-
-
-        /*
-        Possible colors: 
-        
-        #1b264f, #274690, #fabd5b, #576ca8, #302b27
-
-        https://mdigi.tools/color-shades/#1a1b4b
-        #1a1b4b  #5557c4   #7a7cd1
-        #f8a520  #fbcd83   #fde1b5
- 
-        Grayscale
-        333333	474747	5C5C5C	707070	858585	999999	ADADAD	C2C2C2	D6D6D6	EBEBEB	FFFFFF
-
-        */
-        *, *::before, *::after {
-  box-sizing: inherit;
-}
-    </style>
 
     <div class="main text--center">
         <h1>Sudoku</h1>
@@ -40,27 +20,16 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td class="board__cell--filled">3</td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="board__cell--focus"></td>
-                    <td class="board__cell--focus"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="board__cell--focus"></td>
-                    <td class="board__cell--focus"></td>
-                </tr>
-                <tr>
-                    <td class="board__cell--filled">7</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -86,7 +55,18 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td class="board__cell--filled">9</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -141,78 +121,124 @@
 
 
         <div class="chip__container">
-            <div class="chip__item chip__item--disabled">
+            <div class="chip__item" data-number="1">
                 1
             </div>
-            <div class="chip__item chip__item--disabled">
+            <div class="chip__item" data-number="2">
                 2
             </div>
-            <div class="chip__item">
+            <div class="chip__item" data-number="3">
                 3
             </div>
-            <div class="chip__item chip__item--disabled">
+            <div class="chip__item" data-number="4">
                 4
             </div>
-            <div class="chip__item chip__item--disabled">
+            <div class="chip__item" data-number="5">
                 5
             </div>
-            <div class="chip__item chip__item--disabled">
+            <div class="chip__item"" data-number="6">
                 6
             </div>
-            <div class="chip__item chip__item--disabled">
+            <div class="chip__item" data-number="7">
                 7
             </div>
-            <div class="chip__item chip__item--disabled">
+            <div class="chip__item" data-number="8">
                 8
             </div>
-            <div class="chip__item">
+            <div class="chip__item" data-number="9">
                 9
             </div>
         </div>
 
+        <div class="animation mb--1" id="newSection">
+            <div class="btn__container">
+                <a href="#" class="btn" id="undo">
+                    <span class="btn__icon-container">
+                        <svg class="btn__icon btn__icon--undo" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+                    </span>
+                    Undo
+                </a>
+                <a href="#" class="btn" id="redo">
+                    <span class="btn__icon-container">
+                        <svg class="btn__icon btn__icon--hint" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" transform="scale(-1, 1) translate(-25, 0)"></path></svg>
+                    </span>
+                    Redo
+                </a>
+                <a href="#" class="btn" id="erase">
+                    <span class="btn__icon-container">
+                        <svg class="btn__icon btn__icon--new" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </span>
+                    Erase
+                </a>
+            </div>
 
-        <div class="mt--2 text--center">
+            <div class="btn__container">
+                <a href="#" class="btn" id="reset">
+                    <span class="btn__icon-container">
+                        <svg class="btn__icon btn__icon--undo" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    </span>
+                    Reset
+                </a>
+                <a href="#" class="btn" id="hints">
+                    <span class="btn__icon-container">
+                        <svg class="btn__icon btn__icon--hint" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    </span>
+                    Hints
+                </a>
+                <a href="#" class="btn" id="new">
+                    <span class="btn__icon-container">
+                        <svg class="btn__icon btn__icon--new" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    </span>
+                    New
+                </a>
+            </div>
 
-            <div class="selection-card__container">
+        </div>
 
-                <div class="selection-card">
-                    <div class="selection-card__text">
-                        Easy
-                    </div>
+
+        <div class="w--125r text--center align--middle">
+            <div id="difficultySection" class="animation animation--hide-y">
+                <div class="selection-card__container">
+
+                    <input type="radio" name="difficulty" value="1" id="beginner" checked>
+                    <label class="selection-card" for="beginner">
+                        <div class="selection-card__text">
+                            Beginner
+                        </div>
+                        <div class="selection-card__icon"></div>
+                    </label>
+    
+                    <input type="radio" name="difficulty" value="2" id="easy">
+                    <label class="selection-card" for="easy">
+                        <div class="selection-card__text">
+                            Easy
+                        </div>
+                        <div class="selection-card__icon"></div>
+                    </label>
+            
+                    <input type="radio" name="difficulty" value="3" id="medium">
+                    <label class="selection-card" for="medium">
+                        <div class="selection-card__text">
+                            Medium
+                        </div>
+                        <div class="selection-card__icon"></div>
+                    </label>
+            
+                    <input type="radio" name="difficulty" value="4" id="hard">
+                    <label class="selection-card" for="hard">
+                        <div class="selection-card__text">
+                            Hard
+                        </div>
+                        <div class="selection-card__icon"></div>
+                    </label>
                 </div>
-        
-                <div class="selection-card selection-card--active">
-                    <div class="selection-card__text">
-                        Medium
-                    </div>
-                    <div class="selection-card__icon">
-                    </div>
-                </div>
-        
-                <div class="selection-card">
-                    <div class="selection-card__text">
-                        Hard
-                    </div>
-                </div>
-        
-                <div class="selection-card">
-                    <div class="selection-card__text">
-                        Very hard
-                    </div>
-                </div>
-        
-                <a href="#" class="btn btn--primary w--100">Generate</a>
-        
+                <a href="#" class="btn btn--primary w--100 mt--2" id="generate">Generate</a>
+                <a href="#" class="btn btn--red w--100 mt--1 mb--1" id="cancel">Cancel</a>
             </div>
         </div>
         
     </div>
-<script>
-    function toggleA(){
-        document.querySelector('.main').classList.toggle('show');
-    }
-</script>
 
-    <script src="js/app.js"></script>
+    <script src="js/app.js" type="module"></script>
 </body>
 </html>

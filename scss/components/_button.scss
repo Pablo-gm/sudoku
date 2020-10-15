@@ -1,32 +1,181 @@
 .btn{
+
+    $component-root: &;
+
     line-height: 2.5rem;
     position: relative;
     display: inline-block;
-    font-weight: 400;
+    font-weight: 500;
     white-space: nowrap;
     text-align: center;
     height: 2.5rem;
     padding: 0 1rem;
-    font-size: 1rem;
+    font-size: 1.125rem;
+    background-color: $white;
     border-radius: .25rem;
     transition: all 0.3s;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, .14);
+    color: $black;
+    min-width: 7.5rem;
+    box-shadow: 0 .25rem 0 $gray-7;
     cursor: pointer;
     letter-spacing: .02em;
 
+    &:hover, &:focus{
+        background-color: $gray-0;
+    }
+
+    &:active{
+        transform: translateY(.125rem);
+        box-shadow: 0 .125rem $gray-7;
+    }
+
+    // &__icon{
+    //     display: inline-block;
+    //     width: 1.5rem;
+    //     &:after{
+    //         width: 2.5rem;
+    //         height: 2.5rem;
+    //         content: '';
+    //         background-repeat: no-repeat;
+    //         background-position: 1rem 0.5rem;
+    //         border-radius: 50%;
+    //         z-index: 2;
+    //         position: absolute;
+    //         left: 0;
+    //         top: 50%;
+    //         opacity: 1;
+    //         -webkit-transform: translateY(-50%);
+    //         transform: translateY(-50%);
+    //         -webkit-transition: all 200ms ease-in;
+    //         transition: all 200ms ease-in;
+    //     }
+
+
+    //     &--undo:after{
+    //         background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' stroke='currentColor' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3C/svg%3E ");
+    //     }
+
+    //     &--hint:after{
+    //         background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' stroke='currentColor' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3C/svg%3E ");
+    //     }
+
+    //     &--new:after{
+    //         background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' stroke='currentColor' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 6v6m0 0v6m0-6h6m-6 0H6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3C/svg%3E ");
+    //     }
+    // }
+
+    &__icon-container{
+        display: inline-block;
+        width: 1.5rem;
+    }
+
+    &__icon{
+        width: 2.5rem;
+        height: 2.5rem;
+        left: 1rem;
+        top: .5rem;
+        z-index: 2;
+        position: absolute;
+        opacity: 1;
+        -webkit-transition: all 200ms ease-in;
+        transition: all 200ms ease-in;
+    }
+
+    &--active{
+        #{$component-root}__icon{
+            &--hint{
+                fill: $secondary-3;
+            }
+        }
+    }
+
     &--primary{
         color: $white;
-        background: #4244bd;
-        box-shadow: 0 .25rem 0 #121334;
+        background: $primary-3;
+        box-shadow: 0 .25rem 0 $primary-5;
         transition: all 0.1s;
 
         &:hover, &:focus{
-            background-color: #2a2b78;
+            background-color: $primary-4;
         }
 
         &:active{
             transform: translateY(.125rem);
-            box-shadow: 0 .125rem #121334;
+            box-shadow: 0 .125rem $primary-5;
         }
     }
-}
+
+    &--secondary{
+        color: $white;
+        background: $secondary-3;
+        box-shadow: 0 .25rem 0 $secondary-5;
+        transition: all 0.1s;
+
+        &:hover, &:focus{
+            background-color: $secondary-4;
+        }
+
+        &:active{
+            transform: translateY(.125rem);
+            box-shadow: 0 .125rem $secondary-5;
+        }
+    }
+
+    &--green{
+        color: $black;
+        background: $green-3;
+        box-shadow: 0 .25rem 0 $green-5;
+        transition: all 0.1s;
+
+        &:hover, &:focus{
+            color: $white;
+            background-color: $green-4;
+        }
+
+        &:active{
+            transform: translateY(.125rem);
+            box-shadow: 0 .125rem $green-5;
+        }
+    }
+
+    &--red{
+        color: $black;
+        background: $red-3;
+        box-shadow: 0 .25rem 0 $red-5;
+        transition: all 0.1s;
+
+        &:hover, &:focus{
+            color: $white;
+            background-color: $red-4;
+        }
+
+        &:active{
+            transform: translateY(.125rem);
+            box-shadow: 0 .125rem $red-5;
+        }
+    }
+
+    &--disabled{
+        &#{$component-root} {
+            cursor: not-allowed;
+            color: $gray-7;
+            background-color: $color-down;
+            box-shadow: 0 .25rem 0 $shadow-down; 
+        }
+    }
+
+    &__container{
+        width: 25rem;
+        display: flex;
+        justify-content: space-between;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0.625rem;
+
+        #{$component-root}{
+            margin-bottom: 0.625rem;
+        }
+    }
+
+
+} 

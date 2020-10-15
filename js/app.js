@@ -1,151 +1,255 @@
-var baseBoard = [
-    [1,2,3,4,5,6,7,8,9],
-    [4,5,6,7,8,9,1,2,3],
-    [7,8,9,1,2,3,4,5,6],
-    [2,3,4,5,6,7,8,9,1],
-    [5,6,7,8,9,1,2,3,4],
-    [8,9,1,2,3,4,5,6,7],
-    [3,4,5,6,7,8,9,1,2],
-    [6,7,8,9,1,2,3,4,5],
-    [9,1,2,3,4,5,6,7,8]
-];
+import Sudoku from './models/Sudoku.js';
+import * as sudokuView from './views/sudokuView.js';
+import { elements , selectors } from './views/base.js';
 
-var baseBoard2 = [
-    [1,2,0,4,0,6,7,0,9],
-    [0,5,0,7,8,0,1,2,0],
-    [0,8,9,1,2,0,4,5,6],
-    [2,0,4,5,0,7,8,0,1],
-    [0,6,7,8,0,1,2,3,0],
-    [8,9,0,2,3,4,5,0,7],
-    [0,4,5,0,7,8,0,1,2],
-    [6,7,8,9,0,2,3,4,0],
-    [9,0,2,3,4,5,0,7,8]
-];
+// To do
+// Confirm reset game
+// End game message
 
-var board = baseBoard2;
+const state = {};
 
-// Swap rows, valid values 0 - 8, use only rows on the same group
-function swapRows(firstRow, secondRow){
-    [board[firstRow], board[secondRow]] = [board[secondRow], board[firstRow]];
-}
-
-// Swap row groups, valid values 0 - 2
-function swapGroup(firstGroup, secondGroup){
-    for(let index = 0; index < 3; index++){
-        swapRows( firstGroup*3 + index, secondGroup*3 + index );
+const readyNewGame = () => {
+    // Create a new Sudoku model object
+    if (!state.sudoku) {
+        state.sudoku = new Sudoku();
     }
+
+    resetGameState();
+    endGame();
 }
 
-// Mirror diagonally
-function swapDiagonal(){
-    for(let x = 0; x < 9; x++){
-        for(let y = x; y < 9; y++){
-            [board[x][y], board[y][x]] = [board[y][x], board[x][y]]
-        }
-    }
+const resetGameState = () => {
+    state.gameOn = 0;
+    state.showHints = 0;
+    state.validOptions = {};
+    state.undoActions = [];
+    state.redoActions = [];
 }
 
-// display board
-function dumpBoard(){
-    let rows = Array.from(document.getElementById('board').rows);
-    let x,y = 0;
-    rows.forEach( row => {
-        let cells = Array.from(row.cells);
-        x= 0;
-        cells.forEach(cell => { 
-            if(board[y][x]){
-                cell.textContent = board[y][x];
-                cell.classList.add('board__cell--prefill');
+const resetGame = () => {
+    resetGameState();
+    endGame();
+    state.gameOn = 1;
+    sudokuView.dumpBoard(state.sudoku.getPuzzleBoard());
+}
+
+const endGame = () => {
+    state.gameOn = 0;
+    sudokuView.readyNewBtn();
+    sudokuView.disableUndoBtn();
+    sudokuView.disableRedoBtn();
+    sudokuView.disableEraseBtn();
+    sudokuView.disableResetBtn();
+    sudokuView.disableHintsBtn();
+    sudokuView.removeGuides();
+    sudokuView.cleanChips();
+}
+
+const newGame = () => {
+    state.gameOn = 1;
+    sudokuView.unreadyNewBtn();
+    sudokuView.enableHintsBtn();
+    sudokuView.enableResetBtn();
+}
+
+const eraseCell = (x,y) => {
+    state.sudoku.eraseCell(x, y);
+    sudokuView.cleanCell(x, y);
+}
+
+const fillCell = (x,y,val) => {
+    state.sudoku.fillCell(x, y, val);
+    sudokuView.drawCell(x, y, val);
+}
+
+const manageHints = () => {
+    state.validOptions = state.sudoku.checkFilledOptions(state.currentCell.x, state.currentCell.y);
+    sudokuView.readyChips(state.validOptions);
+}
+
+elements.board.addEventListener('click', e => {
+    if (state.gameOn){
+        if (e.target.matches('td')){
+            state.currentCell = { x: e.target.cellIndex, y: e.target.parentElement.rowIndex };
+
+            if (state.showHints) {
+                manageHints();
             }
-            x++;
-        } );
-        y++;
-    });
-}
 
-// Add guide classes to board
-function addGuides(posX, posY){
+            if(state.sudoku.isUpdatable(state.currentCell.x, state.currentCell.y)){
+                sudokuView.removeGuides();
+                sudokuView.addGuides(state.currentCell.x, state.currentCell.y);
 
-    let rows = Array.from(document.getElementById('board').rows);
-    let quadrantX = (posX/3|0)*3;
-    let quadrantY = (posY/3|0)*3;
-
-    for(let i = 0; i < 9; i++){
-        rows[i].cells[posX].classList.add('board__cell--guide');
-        rows[posY].cells[i].classList.add('board__cell--guide');
-        rows[quadrantY + (i/3|0) ].cells[quadrantX + (i % 3)].classList.add('board__cell--guide');
-    }
-
-    rows[posY].cells[posX].classList.remove('board__cell--filled');
-    rows[posY].cells[posX].classList.add('board__cell--working');
-}
-
-// modify to return options and quadrants... or what's needed
-function checkFilledOptions(x,y){
-    let options = {};
-    let tempX, tempY, tempQ;
-    let quadrantX = (x/3|0)*3;
-    let quadrantY = (y/3|0)*3;
-
-    for(let i = 0; i < board.length; i++){
-        tempY = board[i][x];
-        tempX = board[y][i];
-        tempQ = board[quadrantY + (i/3|0) ][quadrantX + (i % 3) ];
-
-        if(!options[tempX]) options[tempX] = 1; 
-        if(!options[tempY]) options[tempY] = 1;
-        if(!options[tempQ]) options[tempQ] = 1;
-    }
-
-    var res = []
-    Object.keys(options).forEach(function (item) {
-        res.push(item);
-    });
-    console.log(res.sort());
-    return options;
-}
-
-function evaluateBoard(){ 
-    let xValues = {};
-    let yValues = {};
-    let qValues = {};
-    let tempX, tempY, tempQ;
-    
-    // check rows and columns
-    for(let i = 0; i < board.length; i++){
-        xValues = {};
-        yValues = {};
-        for(let j = 0; j < board.length; j++){
-            tempX = board[i][j];
-            tempY = board[j][i];
-            if(xValues[tempX] || yValues[tempY]){
-                return false;
-            }else{
-                xValues[tempX] = 1;
-                yValues[tempY] = 1;
-            }
-        }
-    }
-
-    // check value in quadrants
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j < 3; j++){
-            qValues = {};
-            for(let t = 0; t < board.length; t++){
-                tempQ = board[(j*3) + (t/3|0) ][(i*3) + (t % 3) ];
-                if(qValues[tempQ]){ 
-                    return false;
+                if(state.sudoku.isErasable(state.currentCell.x, state.currentCell.y)){
+                    sudokuView.enableEraseBtn();
                 }else{
-                    qValues[tempQ] = 1;
+                    sudokuView.disableEraseBtn();
                 }
             }
+
         }
     }
+});
 
-    return true;
-}
 
-// min and max inclusive
-function getRandomRange(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+elements.optionChips.forEach( (chip) => {
+    chip.addEventListener('click', () => { 
+        if( state.currentCell ) {
+
+            // Fill cell actions
+            fillCell(state.currentCell.x, state.currentCell.y, chip.dataset.number);
+
+            // Undo actions
+            state.undoActions.push({ action: 'add', x: state.currentCell.x, y: state.currentCell.y, value: chip.dataset.number });
+            if(state.undoActions.length == 1) {
+                sudokuView.enableUndoBtn();
+            }
+            
+            // Redo Actions
+            state.redoActions = [];
+            sudokuView.disableRedoBtn();
+
+            // Enable erase button
+            sudokuView.enableEraseBtn();
+
+            // Check if game is finished?
+            if(state.sudoku.isFull()){
+                console.log(state.sudoku.checkBoard());
+            }
+
+        }
+    } );
+});
+
+elements.undoButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.blurUndoBtn();
+
+    if(state.undoActions.length) {
+        let action = state.undoActions.pop();
+
+        // Clean UI and states
+        state.currentCell = '';
+        sudokuView.removeGuides();
+
+        if ( action.action === 'add'){
+            // Erase cell actions
+            eraseCell(action.x, action.y);
+        } else if ( action.action === 'erase') {
+            // Fill cell actions
+            fillCell(action.x, action.y, action.value);
+        }
+
+        if(state.undoActions.length == 0) {
+            sudokuView.disableUndoBtn();
+        }
+
+        // Redo Actions
+        state.redoActions.push(action);
+        sudokuView.enableRedoBtn();
+
+        // Disable erase
+        sudokuView.disableEraseBtn();
+    }
+});
+
+elements.redoButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.blurRedoBtn();
+
+    if(state.redoActions.length) {
+        let action = state.redoActions.pop();
+
+        // Clean UI and states
+        state.currentCell = '';
+        sudokuView.removeGuides();
+
+        if ( action.action === 'add'){
+            // Fill cell actions
+            fillCell(action.x, action.y, action.value);
+        } else if ( action.action === 'erase') {
+            // Erase cell actions
+            eraseCell(action.x, action.y);
+        }
+
+        if(state.redoActions.length == 0) {
+            sudokuView.disableRedoBtn();
+        }
+
+        // Undo Actions
+        state.undoActions.push(action);
+        sudokuView.enableUndoBtn();
+
+        // Disable erase
+        sudokuView.disableEraseBtn();
+    }
+});
+
+elements.eraseButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.blurEraseBtn();
+
+    if( state.currentCell && state.sudoku.isErasable(state.currentCell.x, state.currentCell.y) ) {
+
+        // Erase cell actions
+        eraseCell(state.currentCell.x, state.currentCell.y);
+
+        // Undo actions
+        state.undoActions.push({ action: 'erase', x: state.currentCell.x, y: state.currentCell.y, value: state.sudoku.getAnswerValue(state.currentCell.x, state.currentCell.y) });
+        if(state.undoActions.length == 1) {
+            sudokuView.enableUndoBtn();
+        }
+        
+        // Redo Actions
+        state.redoActions = [];
+        sudokuView.disableRedoBtn();
+
+        sudokuView.disableEraseBtn();
+    }
+});
+
+elements.resetButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.blurResetBtn();
+
+    if(state.gameOn){
+        resetGame();
+    }
+});
+
+elements.hintsButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.blurHintsBtn();
+
+    if(state.gameOn){
+        state.showHints = !state.showHints;
+        sudokuView.toggleHintsBtn();
+        if(!state.showHints){
+            sudokuView.cleanChips();
+        }else if(state.currentCell){
+            manageHints();
+        }
+    }
+});
+
+elements.newButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.showDifficulty();
+});
+
+elements.cancelButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.hideDifficulty();
+});
+
+elements.generateButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.hideDifficulty();
+    state.sudoku.generatePuzzle();
+    state.sudoku.slicePuzzle( parseInt(document.querySelector(selectors.difficulty).value));
+    sudokuView.dumpBoard(state.sudoku.getPuzzleBoard());
+
+    newGame();
+});
+
+readyNewGame();
