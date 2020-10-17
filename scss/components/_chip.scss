@@ -21,6 +21,7 @@
         transition: all linear .15s;
 
         &:hover, &:focus{
+            background-color: $secondary-3;
             box-shadow: 0 .25rem $shadow-hover;
         }
 
@@ -37,6 +38,17 @@
                 box-shadow: 0 .125rem $shadow-done;
             }
         }
+
+        &--disabled{
+            color: $gray-7;
+            background-color: $gray-1;
+            box-shadow: 0 .25rem 0 $shadow-normal; 
+            &:active, &:hover, &:focus{
+                transform: none;
+                box-shadow: 0 .25rem $shadow-normal;
+            }
+        }
+
     }
 }
 

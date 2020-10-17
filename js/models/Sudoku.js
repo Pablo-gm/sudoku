@@ -75,23 +75,28 @@ export default class Sudoku {
         if(!(difficulty && difficulty > 0 && difficulty < 5)){
             difficulty = 1;
         }
-        difficulty = 0;
+
         // Remove values for each "quadrant"
-        let temp;
-        for(let i = 0; i < difficulty + 2; i++){
-            for(let j = 0; j < 3; j++){
-                temp = j * 3;
-                this.puzzleBoard[this.getRandomRange(0, 2) ][this.getRandomRange(temp, temp + 2)] = 0;
-                this.puzzleBoard[this.getRandomRange(3, 5) ][this.getRandomRange(temp, temp + 2)] = 0;
-                this.puzzleBoard[this.getRandomRange(6, 8) ][this.getRandomRange(temp, temp + 2)] = 0;
-            }
-        }
+        // let temp;
+        // for(let i = 0; i < difficulty + 2; i++){
+        //     for(let j = 0; j < 3; j++){
+        //         temp = j * 3;
+        //         this.puzzleBoard[this.getRandomRange(0, 2) ][this.getRandomRange(temp, temp + 2)] = 0;
+        //         this.puzzleBoard[this.getRandomRange(3, 5) ][this.getRandomRange(temp, temp + 2)] = 0;
+        //         this.puzzleBoard[this.getRandomRange(6, 8) ][this.getRandomRange(temp, temp + 2)] = 0;
+        //     }
+        // }
 
         // Remove random values
-        for(let i = 0; i < difficulty * 5; i++){
+        for(let i = 0; i < difficulty * 1; i++){
             this.puzzleBoard[this.getRandomRange(0, 8)][this.getRandomRange(0, 8)] = 0;
         }
 
+        this.setAnswers();
+
+    }
+
+    setAnswers(){
         // Check how many answers
         this.toAnswer = 0;
         let val;
@@ -109,9 +114,8 @@ export default class Sudoku {
                 }
             }
         }
-
+        // Set answer board
         this.answerBoard =  this.puzzleBoard.map(ar => ar.slice());
-
     }
 
     // Cell is updatable
@@ -126,13 +130,17 @@ export default class Sudoku {
 
     // Fill cell with data
     fillCell(x, y, val){
-        if(this.getAnswerValue(x,y) == 0){
-            if(this.answers[val]){
-                this.answers[val]++;
-            }else{
-                this.answers[val] = 1;
-            }
+        let currentAnswer = this.getAnswerValue(x,y);
+        if(currentAnswer == 0){
             this.toAnswer--;
+        }else{
+            this.answers[currentAnswer]--;
+        }
+
+        if(this.answers[val]){
+            this.answers[val]++;
+        }else{
+            this.answers[val] = 1;
         }
 
         this.answerBoard[y][x] = val;

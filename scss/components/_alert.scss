@@ -1,0 +1,73 @@
+.alert{
+    $component-root: &;
+
+    background-color: white;
+    padding: 1.25rem;
+    padding-left: 3.125rem;
+    line-height: 1.25rem;
+    border-radius: .25rem;
+    display: inline-flex;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 0.25rem 0 $gray-1;
+
+    &__icon{
+        left: .625rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.875rem;
+        position: absolute;
+    }
+
+    &__close{
+        cursor: pointer;
+        width: 2.5rem;
+        position: absolute;
+        right: .25rem;
+        padding: .5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        transition: all 0.1s;
+        &:hover{
+            background-color: $gray-0;
+        }
+    }
+
+    &--warning{
+        color: $secondary-5;
+
+        #{$component-root}__icon{
+            color: $secondary-3;
+        }
+    }
+
+    &--success{
+        color: $green-5;
+
+        #{$component-root}__icon{
+            color: $green-3;
+        }
+
+        #{$component-root}__close{
+            &:hover{
+                background-color: $green-1;
+            }
+        }
+    }
+
+    &--error{
+        color: $red-5;
+
+        #{$component-root}__icon{
+            color: $red-3;
+        }
+
+        #{$component-root}__close{
+            &:hover{
+                background-color: $red-1;
+            }
+        }
+    }
+
+}

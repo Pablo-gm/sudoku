@@ -1,6 +1,6 @@
 .board{
     border-collapse: collapse;
-    color: $gray-7;
+    color: $gray-8;
 
     td{
         width: $cell-unit;
@@ -8,7 +8,8 @@
         font-size: $cell-font;
         // line-height: $cell-unit;
         text-align: center;
-        border: 1px solid $gray-1;
+        cursor: pointer;
+        border: 1px solid $gray-3;
         transition: all linear .1s;
     }
 
@@ -39,25 +40,26 @@
 
     &__cell--prefill{
         background-color: $gray-0;
+        cursor: default;
     }
 
     &__cell--guide{
-        background-color: $primary-1;
+        background-color: $secondary-1;
         color: $gray-9;
     }
 
     &__cell--filled{
-        color: $primary-3;
+        color: $secondary-4;
     }
 
     &__cell--guide#{&}__cell--filled{
-        background-color: $primary-2;
-        color: $primary-5;
+        background-color: $secondary-2;
+        color: $secondary-5;
     }
 
-    &__cell--working{
-        background-color: $primary-3;
-        color: $white;
+    &__cell--working, &__cell--working#{&}__cell--filled{
+        background-color: $secondary-3;
+        color: $secondary-5;
     }
 
 }

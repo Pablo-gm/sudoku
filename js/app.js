@@ -3,8 +3,11 @@ import * as sudokuView from './views/sudokuView.js';
 import { elements , selectors } from './views/base.js';
 
 // To do
-// Confirm reset game
-// End game message
+// chips to links?
+// Comment more
+// Use css comb
+// Upload somewhere
+
 
 const state = {};
 
@@ -29,7 +32,10 @@ const resetGameState = () => {
 const resetGame = () => {
     resetGameState();
     endGame();
+    sudokuView.enableUIChips();
+    sudokuView.removeFilled();
     state.gameOn = 1;
+    state.sudoku.setAnswers();
     sudokuView.dumpBoard(state.sudoku.getPuzzleBoard());
 }
 
@@ -43,6 +49,7 @@ const endGame = () => {
     sudokuView.disableHintsBtn();
     sudokuView.removeGuides();
     sudokuView.cleanChips();
+    sudokuView.disableUIChips();
 }
 
 const newGame = () => {
@@ -50,6 +57,12 @@ const newGame = () => {
     sudokuView.unreadyNewBtn();
     sudokuView.enableHintsBtn();
     sudokuView.enableResetBtn();
+
+    sudokuView.removeFilled();
+    sudokuView.removeGuides();
+    sudokuView.cleanChips();
+    sudokuView.enableUIChips();
+    sudokuView.hideMessage();
 }
 
 const eraseCell = (x,y) => {
@@ -70,23 +83,33 @@ const manageHints = () => {
 elements.board.addEventListener('click', e => {
     if (state.gameOn){
         if (e.target.matches('td')){
-            state.currentCell = { x: e.target.cellIndex, y: e.target.parentElement.rowIndex };
 
-            if (state.showHints) {
-                manageHints();
-            }
-
-            if(state.sudoku.isUpdatable(state.currentCell.x, state.currentCell.y)){
+            // If same cell, clean guides
+            if( state.currentCell && state.currentCell.x === e.target.cellIndex && state.currentCell.y === e.target.parentElement.rowIndex ) {
                 sudokuView.removeGuides();
-                sudokuView.addGuides(state.currentCell.x, state.currentCell.y);
+                sudokuView.disableEraseBtn();
+                if (state.showHints) {
+                    sudokuView.cleanChips();
+                }
+            // Otherwise, prepare UI
+            }else{
+                state.currentCell = { x: e.target.cellIndex, y: e.target.parentElement.rowIndex };
 
-                if(state.sudoku.isErasable(state.currentCell.x, state.currentCell.y)){
-                    sudokuView.enableEraseBtn();
-                }else{
-                    sudokuView.disableEraseBtn();
+                if (state.showHints) {
+                    manageHints();
+                }
+    
+                if(state.sudoku.isUpdatable(state.currentCell.x, state.currentCell.y)){
+                    sudokuView.removeGuides();
+                    sudokuView.addGuides(state.currentCell.x, state.currentCell.y);
+    
+                    if(state.sudoku.isErasable(state.currentCell.x, state.currentCell.y)){
+                        sudokuView.enableEraseBtn();
+                    }else{
+                        sudokuView.disableEraseBtn();
+                    }
                 }
             }
-
         }
     }
 });
@@ -94,7 +117,7 @@ elements.board.addEventListener('click', e => {
 
 elements.optionChips.forEach( (chip) => {
     chip.addEventListener('click', () => { 
-        if( state.currentCell ) {
+        if( state.gameOn && state.currentCell ) {
 
             // Fill cell actions
             fillCell(state.currentCell.x, state.currentCell.y, chip.dataset.number);
@@ -114,7 +137,14 @@ elements.optionChips.forEach( (chip) => {
 
             // Check if game is finished?
             if(state.sudoku.isFull()){
-                console.log(state.sudoku.checkBoard());
+                let answer = state.sudoku.checkBoard();
+                sudokuView.setMessage(answer.type, answer.message);
+                sudokuView.showMessage();
+
+                if(answer.type === 'success'){
+                    state.gameOn = 0;
+                    endGame();
+                }
             }
 
         }
@@ -210,10 +240,21 @@ elements.eraseButton.addEventListener('click', e => {
 
 elements.resetButton.addEventListener('click', e => {
     e.preventDefault();
-    sudokuView.blurResetBtn();
+    if(state.gameOn){
+        sudokuView.showReset();
+    }
+});
 
+elements.cancelRestartButton.addEventListener('click', e => {
+    e.preventDefault();
+    sudokuView.hideReset();
+});
+
+elements.restartButton.addEventListener('click', e => {
+    e.preventDefault();
     if(state.gameOn){
         resetGame();
+        sudokuView.hideReset();
     }
 });
 
@@ -250,6 +291,13 @@ elements.generateButton.addEventListener('click', e => {
     sudokuView.dumpBoard(state.sudoku.getPuzzleBoard());
 
     newGame();
+});
+
+elements.messsage.addEventListener('click', e => {
+    e.preventDefault();
+    if (e.target.matches('.alert__close')){
+        sudokuView.hideMessage();
+    }
 });
 
 readyNewGame();

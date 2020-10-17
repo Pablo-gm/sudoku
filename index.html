@@ -150,6 +150,10 @@
             </div>
         </div>
 
+        <div class="animation animation animation--hide-y w--25r align--middle" id="messageSection">
+            <div class="alert" id="message"></div>
+        </div>
+
         <div class="animation mb--1" id="newSection">
             <div class="btn__container">
                 <a href="#" class="btn" id="undo">
@@ -196,8 +200,8 @@
         </div>
 
 
-        <div class="w--125r text--center align--middle">
-            <div id="difficultySection" class="animation animation--hide-y">
+        <div class="">
+            <div id="difficultySection" class="animation animation--hide-y w--125r align--middle">
                 <div class="selection-card__container">
 
                     <input type="radio" name="difficulty" value="1" id="beginner" checked>
@@ -234,6 +238,18 @@
                 </div>
                 <a href="#" class="btn btn--primary w--100 mt--2" id="generate">Generate</a>
                 <a href="#" class="btn btn--red w--100 mt--1 mb--1" id="cancel">Cancel</a>
+            </div>
+            <div id="restartSection" class="animation animation--hide-y">
+                <div class="w--25r align--middle">
+                    <div class="alert alert--warning">
+                        <svg class="alert__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        All progress will be lost.
+                    </div>
+                </div>
+                <div class="w--125r align--middle">
+                    <a href="#" class="btn btn--primary w--100 mt--2" id="restart">Restart</a>
+                    <a href="#" class="btn btn--red w--100 mt--1 mb--1" id="cancelRestart">Cancel</a>
+                </div>
             </div>
         </div>
         

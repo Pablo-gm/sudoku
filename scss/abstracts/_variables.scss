@@ -21,7 +21,6 @@ $red-3: #f40b45;
 $red-4: #92072a;
 $red-5: #31020e;
 
-// 09BC8A
 $green-1: #cefdf0;
 $green-2: #6df8d1;
 $green-3: #0cf3b3;
@@ -42,12 +41,16 @@ $gray-7: #5C5C5C;
 $gray-8: #474747;
 $gray-9: #333333;
 
+$body-background: #ecf6fb;
+
+// Chips
 $shadow-normal: $gray-7;
-$shadow-done: $gray-2;
-$shadow-hover: $secondary-3;
+$shadow-done: $gray-3;
+$shadow-hover: $secondary-5;
 $shadow-down: #5C5C5C;
 $color-down: #D6D6D6;
 
-
-//$body-background: #f8a521;
-$body-background: #ecf6fb;
+// Transitions
+$standard-easing: cubic-bezier(0.4, 0, 0.2, 1);
+$decelerated-easing: cubic-bezier(0.0, 0.0, 0.2, 1);
+$accelerated-easing: cubic-bezier(0.4, 0.0, 1, 1);
