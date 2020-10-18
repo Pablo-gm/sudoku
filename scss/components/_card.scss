@@ -1,9 +1,11 @@
 .card{
-    background: $white;
-    width: max-content;
-    padding: calc(1.25rem - 1px);
-    margin: 0 auto;
     display: block;
+
+    width: max-content;
+    margin: 0 auto;
+    padding: calc(1.25rem - 1px);
+        
     border-radius: .25rem;
+    background: $white;
     box-shadow: 0 .25rem 0 $secondary-3;
 }

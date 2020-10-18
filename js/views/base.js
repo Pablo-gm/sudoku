@@ -1,4 +1,5 @@
 export const elements = {
+    title: document.querySelector('#title'),
     board: document.querySelector('#board'),
     undoButton: document.querySelector('#undo'),
     redoButton: document.querySelector('#redo'),
@@ -23,4 +24,6 @@ export const selectors = {
     guideCells: '.board__cell--guide',
     filledCells: '.board__cell--filled',
     workingCells: '.board__cell--working',
-}
+};
+
+export const difficulties = ['Beginner','Easy', 'Medium', 'Hard'];

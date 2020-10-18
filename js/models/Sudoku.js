@@ -15,12 +15,15 @@ export default class Sudoku {
         this.answerBoard;
         this.answers = {};
         this.toAnswer = 0;
+        this.difficulty = 0;
     }
 
+    // Get base board
     getBoard(){
         return this.baseBoard;
     }
 
+    // Get Puzzle board, the original puzzle
     getPuzzleBoard(){
         return this.puzzleBoard;
     }
@@ -76,29 +79,37 @@ export default class Sudoku {
             difficulty = 1;
         }
 
+        this.difficulty = difficulty;
+
         // Remove values for each "quadrant"
-        // let temp;
-        // for(let i = 0; i < difficulty + 2; i++){
-        //     for(let j = 0; j < 3; j++){
-        //         temp = j * 3;
-        //         this.puzzleBoard[this.getRandomRange(0, 2) ][this.getRandomRange(temp, temp + 2)] = 0;
-        //         this.puzzleBoard[this.getRandomRange(3, 5) ][this.getRandomRange(temp, temp + 2)] = 0;
-        //         this.puzzleBoard[this.getRandomRange(6, 8) ][this.getRandomRange(temp, temp + 2)] = 0;
-        //     }
-        // }
+        let temp;
+        for(let i = 0; i < difficulty + 2; i++){
+            for(let j = 0; j < 3; j++){
+                temp = j * 3;
+                this.puzzleBoard[this.getRandomRange(0, 2) ][this.getRandomRange(temp, temp + 2)] = 0;
+                this.puzzleBoard[this.getRandomRange(3, 5) ][this.getRandomRange(temp, temp + 2)] = 0;
+                this.puzzleBoard[this.getRandomRange(6, 8) ][this.getRandomRange(temp, temp + 2)] = 0;
+            }
+        }
 
         // Remove random values
         for(let i = 0; i < difficulty * 1; i++){
             this.puzzleBoard[this.getRandomRange(0, 8)][this.getRandomRange(0, 8)] = 0;
         }
 
+        // Update answers variables
         this.setAnswers();
 
     }
 
+    // Set currents number answers, missing cells and answer board
     setAnswers(){
         // Check how many answers
         this.toAnswer = 0;
+
+        // Set current answers
+        this.answers = {};
+        
         let val;
         for(let i = 0; i < 9; i++){
             for(let j = 0; j < 9; j++){
@@ -116,6 +127,11 @@ export default class Sudoku {
         }
         // Set answer board
         this.answerBoard =  this.puzzleBoard.map(ar => ar.slice());
+    }
+
+    // Get puzzle difficulty
+    getDifficulty() {
+        return this.difficulty;
     }
 
     // Cell is updatable
@@ -155,8 +171,9 @@ export default class Sudoku {
         }
     }
 
-    getAnswers() {
-        return this.answers; 
+    // Get answers, how many of each number
+    getAnswers( number = 0 ) {
+        return (number > 0 && number < 10) ? this.answers[number] : this.answers; 
     }
 
     // Get answer at cell
@@ -189,9 +206,10 @@ export default class Sudoku {
         return this.toAnswer === 0;
     }
 
-    // Check answer validity
+    // Check answer, return corresponding message
     checkBoard(){ 
-        console.log(this.answers);
+        // For debuggin
+        // console.log(this.answers);
         if(Object.keys(this.answers).length !== 9){
             return {type: 'error', message: 'Invalid values found.'};
         }
@@ -199,9 +217,9 @@ export default class Sudoku {
         for(let i = 1; i < 10; i++){
             if(this.answers[i] !== 9){
                 if(this.answers[i] > 9){
-                    return {type: 'error', message: `To many ${i} found...`};
+                    return {type: 'error', message: `Too many ${i}s found...`};
                 }else{
-                    return {type: 'error', message: `To few ${i} found...`};
+                    return {type: 'error', message: `Too few ${i}s found...`};
                 }
             }
         }
@@ -218,6 +236,7 @@ export default class Sudoku {
             for(let j = 0; j < this.answerBoard.length; j++){
                 tempX = this.answerBoard[i][j];
                 tempY = this.answerBoard[j][i];
+
                 // Just in case
                 if( tempX < 1 || tempX > 9 ){
                     return {type: 'error', message: 'Invalid values found.'};

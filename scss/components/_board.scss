@@ -1,21 +1,26 @@
 .board{
+    $component-root: &;
+
     border-collapse: collapse;
+
     color: $gray-8;
 
     td{
+        font-size: $cell-font;
+
         width: $cell-unit;
         height: $cell-unit;
-        font-size: $cell-font;
-        // line-height: $cell-unit;
-        text-align: center;
+
         cursor: pointer;
-        border: 1px solid $gray-3;
         transition: all linear .1s;
+        text-align: center;
+        
+        border: 1px solid $gray-3;
     }
 
     tr:nth-child(1) td{
-        border-top-color: $gray-9;
         border-top-width: 2px;
+        border-top-color: $gray-9;
         border-right: none;
     }
 
@@ -28,38 +33,49 @@
     }
 
     td:nth-child(3n+1){
-        border-left-color: $gray-9;
         border-left-width: 2px;
+        border-left-color: $gray-9;
     }
 
     td:nth-child(3n){
-        border-right-color: $gray-9;
         border-right-width: 2px;
+        border-right-color: $gray-9;
     }
 
+    td:not(#{&}__cell--prefill):hover{
+        background-color: $secondary-2;
+    }
 
+    // Filled by controller
     &__cell--prefill{
         background-color: $gray-0;
-        cursor: default;
+        &#{$component-root}{
+            cursor: default;
+        }
     }
 
+    // UI guide
     &__cell--guide{
-        background-color: $secondary-1;
         color: $gray-9;
+        background-color: $secondary-1;
     }
 
+    // Filled by user
     &__cell--filled{
         color: $secondary-4;
     }
 
+    // UI guide + filled by user
     &__cell--guide#{&}__cell--filled{
-        background-color: $secondary-2;
         color: $secondary-5;
+        background-color: $secondary-2;
+        
     }
 
+    // Selected cell to modify
     &__cell--working, &__cell--working#{&}__cell--filled{
-        background-color: $secondary-3;
         color: $secondary-5;
+        background-color: $secondary-3;
     }
 
 }

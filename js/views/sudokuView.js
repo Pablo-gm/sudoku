@@ -1,5 +1,12 @@
 
-import { elements, selectors } from './base.js';
+import { elements, selectors, difficulties } from './base.js';
+
+// Change title
+export const changeTitle = (difficulty) => {
+    if(difficulty > 0 && difficulty < 5){
+        elements.title.textContent = difficulties[difficulty - 1];
+    }
+}
 
 // Ready new button classes
 export const unreadyNewBtn = () => {
@@ -79,6 +86,11 @@ export const disableHintsBtn = () => {
 export const toggleHintsBtn = () => {
     elements.hintsButton.classList.toggle('btn--active');
 }
+
+export const clearHintsBtn = () => {
+    elements.hintsButton.classList.remove('btn--active');
+}
+
 
 export const blurHintsBtn = () => {
     elements.hintsButton.blur();
@@ -174,7 +186,7 @@ export const dumpBoard = (board) => {
 // Add cell value
 export const drawCell = (x, y, val) => {
     let cell = elements.board.rows[y].cells[x];
-    cell.textContent = val;
+    cell.textContent = ( val !== 0) ? val : '';
     cell.classList.add('board__cell--filled');
 }
 
@@ -182,7 +194,14 @@ export const drawCell = (x, y, val) => {
 export const cleanCell = (x, y) => {
     let cell = elements.board.rows[y].cells[x];
     cell.textContent = '';
-    cell.classList.classList  = '';
+    //cell.classList  = '';
+}
+
+// Update chip hints counters
+export const updateHintCounter = (counters) => {
+    for(var key in counters) {
+        document.querySelector('[data-number="' + key + '"] span').innerHTML = counters[key];
+     }
 }
 
 // Add guide classes to board
@@ -213,7 +232,7 @@ export const removeFilled = () => {
     document.querySelectorAll(selectors.filledCells).forEach(cell => { cell.classList.remove('board__cell--filled') });
 }
 
-
+// Set alert message
 export const setMessage = (type, message) => {
     let icon, text;
     let close = '<svg class="alert__close" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style=""><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
@@ -227,11 +246,13 @@ export const setMessage = (type, message) => {
     elements.messsage.innerHTML  = `${icon} ${message} ${close}`;
 }
 
+// Show alert message
 export const showMessage = () => {
     elements.messsageSection.classList.add('animation--show-y')
     elements.messsageSection.classList.remove('animation--hide-y');
 }
 
+// Hide alert message
 export const hideMessage = () => {
     elements.messsageSection.classList.remove('animation--show-y')
     elements.messsageSection.classList.add('animation--hide-y');

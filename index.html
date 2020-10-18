@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sudoku</title>
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">  -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">  -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> 
 
-    <link href="css/style.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
+    <link href="css/style.min.css" rel="stylesheet">
 </head>
 <body>
 
     <div class="main text--center">
-        <h1>Sudoku</h1>
+        <h1 id="title">Sudoku</h1>
+
         <div class="card">
             <table id="board" class="board">
                 <tr>
@@ -119,42 +118,43 @@
             </table>
         </div>
 
-
-        <div class="chip__container">
-            <div class="chip__item" data-number="1">
-                1
-            </div>
-            <div class="chip__item" data-number="2">
-                2
-            </div>
-            <div class="chip__item" data-number="3">
-                3
-            </div>
-            <div class="chip__item" data-number="4">
-                4
-            </div>
-            <div class="chip__item" data-number="5">
-                5
-            </div>
-            <div class="chip__item"" data-number="6">
-                6
-            </div>
-            <div class="chip__item" data-number="7">
-                7
-            </div>
-            <div class="chip__item" data-number="8">
-                8
-            </div>
-            <div class="chip__item" data-number="9">
-                9
-            </div>
-        </div>
-
-        <div class="animation animation animation--hide-y w--25r align--middle" id="messageSection">
-            <div class="alert" id="message"></div>
-        </div>
-
         <div class="animation mb--1" id="newSection">
+
+
+            <div class="chip__container">
+                <a href="#" class="chip__item chip__item--disabled" data-number="1">
+                    1 <span class="chip__hint">0</span>
+                </a>
+                <a href="#" class="chip__item chip__item--disabled" data-number="2">
+                    2 <span class="chip__hint">0</span>
+                </a>
+                <a href="#" class="chip__item chip__item--disabled" data-number="3">
+                    3 <span class="chip__hint">0</span>
+                </a>
+                <a href="#" class="chip__item chip__item--disabled" data-number="4">
+                    4 <span class="chip__hint">0</span>
+                </a>
+                <a href="#" class="chip__item chip__item--disabled" data-number="5">
+                    5 <span class="chip__hint">0</span>
+                </a>
+                <a href="#" class="chip__item chip__item--disabled"" data-number="6">
+                    6 <span class="chip__hint">0</span>
+                </a>
+                <a href="#" class="chip__item chip__item--disabled" data-number="7">
+                    7 <span class="chip__hint">0</span>
+                </a>
+                <a href="#" class="chip__item chip__item--disabled" data-number="8">
+                    8 <span class="chip__hint">0</span>
+                </a>
+                <a href="#" class="chip__item chip__item--disabled" data-number="9">
+                    9 <span class="chip__hint">0</span>
+                </a>
+            </div>
+
+            <div class="animation animation animation--hide-y w--25r align--middle" id="messageSection">
+                <div class="alert" id="message"></div>
+            </div>
+
             <div class="btn__container">
                 <a href="#" class="btn" id="undo">
                     <span class="btn__icon-container">
@@ -196,12 +196,10 @@
                     New
                 </a>
             </div>
-
         </div>
 
-
         <div class="">
-            <div id="difficultySection" class="animation animation--hide-y w--125r align--middle">
+            <div id="difficultySection" class="animation animation--hide-y w--125r mt--3 align--middle">
                 <div class="selection-card__container">
 
                     <input type="radio" name="difficulty" value="1" id="beginner" checked>
@@ -247,7 +245,7 @@
                     </div>
                 </div>
                 <div class="w--125r align--middle">
-                    <a href="#" class="btn btn--primary w--100 mt--2" id="restart">Restart</a>
+                    <a href="#" class="btn btn--green w--100 mt--2" id="restart">Restart</a>
                     <a href="#" class="btn btn--red w--100 mt--1 mb--1" id="cancelRestart">Cancel</a>
                 </div>
             </div>

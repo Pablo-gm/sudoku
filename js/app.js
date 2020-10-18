@@ -2,15 +2,10 @@ import Sudoku from './models/Sudoku.js';
 import * as sudokuView from './views/sudokuView.js';
 import { elements , selectors } from './views/base.js';
 
-// To do
-// chips to links?
-// Comment more
-// Use css comb
-// Upload somewhere
-
-
+// Hold different game states and objects
 const state = {};
 
+// Create sudoku object and call helper functions
 const readyNewGame = () => {
     // Create a new Sudoku model object
     if (!state.sudoku) {
@@ -21,14 +16,17 @@ const readyNewGame = () => {
     endGame();
 }
 
+// Reset game states
 const resetGameState = () => {
     state.gameOn = 0;
     state.showHints = 0;
+    state.currentCell = {};
     state.validOptions = {};
     state.undoActions = [];
     state.redoActions = [];
 }
 
+// Reset game state, clean UI and redo Sudoku board
 const resetGame = () => {
     resetGameState();
     endGame();
@@ -39,6 +37,7 @@ const resetGame = () => {
     sudokuView.dumpBoard(state.sudoku.getPuzzleBoard());
 }
 
+// Clean game state and disable neccesary UI
 const endGame = () => {
     state.gameOn = 0;
     sudokuView.readyNewBtn();
@@ -52,9 +51,13 @@ const endGame = () => {
     sudokuView.disableUIChips();
 }
 
+// Prepare game state and UI for new game
 const newGame = () => {
     state.gameOn = 1;
+    state.showHints = 0;
+    state.currentCell = {};
     sudokuView.unreadyNewBtn();
+    sudokuView.clearHintsBtn();
     sudokuView.enableHintsBtn();
     sudokuView.enableResetBtn();
 
@@ -65,44 +68,63 @@ const newGame = () => {
     sudokuView.hideMessage();
 }
 
+// Erase cell value on game state and UI
 const eraseCell = (x,y) => {
+    // Get value before erase it
+    let toUpdate = new Object();
+    let cellValue = state.sudoku.getAnswerValue(x, y);
+
     state.sudoku.eraseCell(x, y);
     sudokuView.cleanCell(x, y);
+
+    // Now ge get answers
+    toUpdate[cellValue] =  state.sudoku.getAnswers(cellValue);
+    sudokuView.updateHintCounter(toUpdate);
 }
 
+// Fill cell value on game state and UI
 const fillCell = (x,y,val) => {
     state.sudoku.fillCell(x, y, val);
     sudokuView.drawCell(x, y, val);
+    
+    let toUpdate = new Object();
+    toUpdate[val] = state.sudoku.getAnswers(val);
+    sudokuView.updateHintCounter(toUpdate);
 }
 
+// Get and ready valid options according to current cell
 const manageHints = () => {
     state.validOptions = state.sudoku.checkFilledOptions(state.currentCell.x, state.currentCell.y);
     sudokuView.readyChips(state.validOptions);
 }
 
+// Event listener for board cells
 elements.board.addEventListener('click', e => {
     if (state.gameOn){
         if (e.target.matches('td')){
+            let cellX = e.target.cellIndex;
+            let cellY = e.target.parentElement.rowIndex;
 
-            // If same cell, clean guides
-            if( state.currentCell && state.currentCell.x === e.target.cellIndex && state.currentCell.y === e.target.parentElement.rowIndex ) {
-                sudokuView.removeGuides();
-                sudokuView.disableEraseBtn();
-                if (state.showHints) {
-                    sudokuView.cleanChips();
-                }
-            // Otherwise, prepare UI
-            }else{
-                state.currentCell = { x: e.target.cellIndex, y: e.target.parentElement.rowIndex };
+            // Is a valid cell
+            if(state.sudoku.isUpdatable(cellX, cellY)){
+                // If same cell as current state, clean guides, disable erase btn
+                if( state.currentCell && state.currentCell.x === cellX && state.currentCell.y === cellY ) {
+                    sudokuView.removeGuides();
+                    sudokuView.disableEraseBtn();
+                    if (state.showHints) {
+                        sudokuView.cleanChips();
+                    }
+                // Otherwise, prepare UI and set current cell state
+                }else{
+                    state.currentCell = { x: cellX, y: cellY };
 
-                if (state.showHints) {
-                    manageHints();
-                }
-    
-                if(state.sudoku.isUpdatable(state.currentCell.x, state.currentCell.y)){
+                    if (state.showHints) {
+                        manageHints();
+                    }
+        
                     sudokuView.removeGuides();
                     sudokuView.addGuides(state.currentCell.x, state.currentCell.y);
-    
+
                     if(state.sudoku.isErasable(state.currentCell.x, state.currentCell.y)){
                         sudokuView.enableEraseBtn();
                     }else{
@@ -114,9 +136,12 @@ elements.board.addEventListener('click', e => {
     }
 });
 
-
+// Event listener for option chips
 elements.optionChips.forEach( (chip) => {
-    chip.addEventListener('click', () => { 
+    chip.addEventListener('click', (e) => { 
+        e.preventDefault();
+        chip.blur();
+
         if( state.gameOn && state.currentCell ) {
 
             // Fill cell actions
@@ -151,11 +176,12 @@ elements.optionChips.forEach( (chip) => {
     } );
 });
 
+// Event listener for undo button
 elements.undoButton.addEventListener('click', e => {
     e.preventDefault();
     sudokuView.blurUndoBtn();
 
-    if(state.undoActions.length) {
+    if( state.gameOn && state.undoActions.length) {
         let action = state.undoActions.pop();
 
         // Clean UI and states
@@ -170,6 +196,7 @@ elements.undoButton.addEventListener('click', e => {
             fillCell(action.x, action.y, action.value);
         }
 
+        // Disable button if neccesary
         if(state.undoActions.length == 0) {
             sudokuView.disableUndoBtn();
         }
@@ -183,11 +210,12 @@ elements.undoButton.addEventListener('click', e => {
     }
 });
 
+// Event listener for option chips
 elements.redoButton.addEventListener('click', e => {
     e.preventDefault();
     sudokuView.blurRedoBtn();
 
-    if(state.redoActions.length) {
+    if( state.gameOn && state.redoActions.length) {
         let action = state.redoActions.pop();
 
         // Clean UI and states
@@ -202,6 +230,7 @@ elements.redoButton.addEventListener('click', e => {
             eraseCell(action.x, action.y);
         }
 
+        // Disable button if neccesary
         if(state.redoActions.length == 0) {
             sudokuView.disableRedoBtn();
         }
@@ -215,29 +244,28 @@ elements.redoButton.addEventListener('click', e => {
     }
 });
 
+// Event listener for option chips
 elements.eraseButton.addEventListener('click', e => {
     e.preventDefault();
     sudokuView.blurEraseBtn();
 
-    if( state.currentCell && state.sudoku.isErasable(state.currentCell.x, state.currentCell.y) ) {
-
-        // Erase cell actions
-        eraseCell(state.currentCell.x, state.currentCell.y);
+    if( state.gameOn &&  state.currentCell && state.sudoku.isErasable(state.currentCell.x, state.currentCell.y) ) {
 
         // Undo actions
         state.undoActions.push({ action: 'erase', x: state.currentCell.x, y: state.currentCell.y, value: state.sudoku.getAnswerValue(state.currentCell.x, state.currentCell.y) });
         if(state.undoActions.length == 1) {
             sudokuView.enableUndoBtn();
         }
-        
-        // Redo Actions
-        state.redoActions = [];
-        sudokuView.disableRedoBtn();
 
+        // Erase cell actions
+        eraseCell(state.currentCell.x, state.currentCell.y);
+        
+        // Disable erase button
         sudokuView.disableEraseBtn();
     }
 });
 
+// Event listener for reset button --> show restart section
 elements.resetButton.addEventListener('click', e => {
     e.preventDefault();
     if(state.gameOn){
@@ -245,11 +273,13 @@ elements.resetButton.addEventListener('click', e => {
     }
 });
 
+// Event listener for cancel restart button --> hide restart section
 elements.cancelRestartButton.addEventListener('click', e => {
     e.preventDefault();
     sudokuView.hideReset();
 });
 
+// Event listener for restart button
 elements.restartButton.addEventListener('click', e => {
     e.preventDefault();
     if(state.gameOn){
@@ -258,6 +288,7 @@ elements.restartButton.addEventListener('click', e => {
     }
 });
 
+// Event listener for hints button --> show/hide hints when choosing cell options
 elements.hintsButton.addEventListener('click', e => {
     e.preventDefault();
     sudokuView.blurHintsBtn();
@@ -273,31 +304,43 @@ elements.hintsButton.addEventListener('click', e => {
     }
 });
 
+// Event listener for new button --> show generate section
 elements.newButton.addEventListener('click', e => {
     e.preventDefault();
     sudokuView.showDifficulty();
 });
 
+// Event listener for cancel new button --> hide generate section
 elements.cancelButton.addEventListener('click', e => {
     e.preventDefault();
     sudokuView.hideDifficulty();
 });
 
+// Event listener for generate new sudoku
 elements.generateButton.addEventListener('click', e => {
     e.preventDefault();
-    sudokuView.hideDifficulty();
+
+    // Generate new board
     state.sudoku.generatePuzzle();
     state.sudoku.slicePuzzle( parseInt(document.querySelector(selectors.difficulty).value));
-    sudokuView.dumpBoard(state.sudoku.getPuzzleBoard());
 
+    // Manage new board UI
+    sudokuView.hideDifficulty();
+    sudokuView.changeTitle(state.sudoku.getDifficulty());
+    sudokuView.dumpBoard(state.sudoku.getPuzzleBoard());
+    sudokuView.updateHintCounter(state.sudoku.getAnswers());
+
+    // Update new game state
     newGame();
 });
 
+// Event listener for alert --> hide alert on 'x' click
 elements.messsage.addEventListener('click', e => {
     e.preventDefault();
-    if (e.target.matches('.alert__close')){
+    if (e.target.closest('.alert__close')){
         sudokuView.hideMessage();
     }
 });
 
+// Ready game state on load
 readyNewGame();

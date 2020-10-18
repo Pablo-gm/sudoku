@@ -1,24 +1,32 @@
 .chip{
+    $component-root: &;
+
     &__container{
         display: flex;
+
         width: 25rem;
-        // justify-content: center;
-        justify-content: space-between;
         margin: 1.25rem auto 2.5rem auto;
+
+        justify-content: space-between;
     }
     
     &__item{
-        background-color: $white;
-        color: $gray-9;
-        width: $cell-unit;
-        height: $cell-unit;
         font-size: $cell-font;
         line-height: $cell-unit;
-        box-shadow: 0 .25rem 0 $shadow-normal; 
+
+        position: relative;
+
+        width: $cell-unit;
+        height: $cell-unit;
         margin: 0 .125rem;
-        border-radius: .125rem;
+
         cursor: pointer;
         transition: all linear .15s;
+
+        color: $gray-9;
+        border-radius: .125rem;
+        background-color: $white;
+        box-shadow: 0 .25rem 0 $shadow-normal; 
 
         &:hover, &:focus{
             background-color: $secondary-3;
@@ -27,28 +35,46 @@
 
         &:active{
             transform: translateY(.125rem);
+
             box-shadow: 0 .125rem $shadow-hover;
         }
 
+        // Hints
         &--done{
             color: $gray-7;
             box-shadow: 0 .25rem 0 $shadow-done; 
+
             &:active{
                 transform: translateY(.125rem);
+
                 box-shadow: 0 .125rem $shadow-done;
             }
         }
 
-        &--disabled{
+        // Game is done
+        &--disabled#{&}{
+            cursor: not-allowed;
+
             color: $gray-7;
             background-color: $gray-1;
             box-shadow: 0 .25rem 0 $shadow-normal; 
+
             &:active, &:hover, &:focus{
                 transform: none;
+
                 box-shadow: 0 .25rem $shadow-normal;
             }
         }
 
+    }
+
+    &__hint{
+        font-size: .625rem;
+        line-height: .625rem;
+    
+        position: absolute;
+        right: .3125rem;
+        bottom: .3125rem;
     }
 }
 
