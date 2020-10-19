@@ -257,3 +257,15 @@ export const hideMessage = () => {
     elements.messsageSection.classList.remove('animation--show-y')
     elements.messsageSection.classList.add('animation--hide-y');
 }
+
+// Show new game alert message
+export const showNewMessage = () => {
+    elements.newAlert.classList.add('display--none')
+    elements.newAlert.classList.remove('display--none');
+}
+
+// Hide new game alert message
+export const hideNewMessage = () => {
+    elements.newAlert.classList.remove('display--none')
+    elements.newAlert.classList.add('display--none');
+}

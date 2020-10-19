@@ -12,7 +12,7 @@
         opacity: 0;
     }
     &--show-y#{$component-root}{
-        max-height: 20rem;
+        max-height: 88rem;
 
         transition: transform 0.2s $decelerated-easing 0.3s, opacity .2s $decelerated-easing 0.3s, max-height 0s 0.2s;
         transform: translateY(0);

@@ -9,6 +9,7 @@ export const elements = {
     restartButton: document.querySelector('#restart'),
     hintsButton: document.querySelector('#hints'),
     newButton: document.querySelector('#new'),
+    newAlert: document.querySelector('#newAlert'),
     newSection: document.querySelector('#newSection'),
     generateButton: document.querySelector('#generate'),
     cancelButton: document.querySelector('#cancel'),

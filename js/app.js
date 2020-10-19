@@ -30,7 +30,7 @@ const resetGameState = () => {
 const resetGame = () => {
     resetGameState();
     endGame();
-    sudokuView.enableUIChips();
+    sudokuView.unreadyNewBtn();
     sudokuView.removeFilled();
     state.gameOn = 1;
     state.sudoku.setAnswers();
@@ -59,12 +59,11 @@ const newGame = () => {
     sudokuView.unreadyNewBtn();
     sudokuView.clearHintsBtn();
     sudokuView.enableHintsBtn();
-    sudokuView.enableResetBtn();
 
     sudokuView.removeFilled();
     sudokuView.removeGuides();
     sudokuView.cleanChips();
-    sudokuView.enableUIChips();
+    sudokuView.disableUIChips();
     sudokuView.hideMessage();
 }
 
@@ -114,9 +113,12 @@ elements.board.addEventListener('click', e => {
                     if (state.showHints) {
                         sudokuView.cleanChips();
                     }
+                    sudokuView.disableUIChips();
                 // Otherwise, prepare UI and set current cell state
                 }else{
                     state.currentCell = { x: cellX, y: cellY };
+
+                    sudokuView.enableUIChips();
 
                     if (state.showHints) {
                         manageHints();
@@ -151,6 +153,9 @@ elements.optionChips.forEach( (chip) => {
             state.undoActions.push({ action: 'add', x: state.currentCell.x, y: state.currentCell.y, value: chip.dataset.number });
             if(state.undoActions.length == 1) {
                 sudokuView.enableUndoBtn();
+
+                // Enable reset button
+                sudokuView.enableResetBtn();
             }
             
             // Redo Actions
@@ -207,6 +212,9 @@ elements.undoButton.addEventListener('click', e => {
 
         // Disable erase
         sudokuView.disableEraseBtn();
+
+        // Disable chips
+        sudokuView.disableUIChips();
     }
 });
 
@@ -241,6 +249,9 @@ elements.redoButton.addEventListener('click', e => {
 
         // Disable erase
         sudokuView.disableEraseBtn();
+
+        // Disable chips
+        sudokuView.disableUIChips();
     }
 });
 
@@ -253,9 +264,6 @@ elements.eraseButton.addEventListener('click', e => {
 
         // Undo actions
         state.undoActions.push({ action: 'erase', x: state.currentCell.x, y: state.currentCell.y, value: state.sudoku.getAnswerValue(state.currentCell.x, state.currentCell.y) });
-        if(state.undoActions.length == 1) {
-            sudokuView.enableUndoBtn();
-        }
 
         // Erase cell actions
         eraseCell(state.currentCell.x, state.currentCell.y);
@@ -268,7 +276,7 @@ elements.eraseButton.addEventListener('click', e => {
 // Event listener for reset button --> show restart section
 elements.resetButton.addEventListener('click', e => {
     e.preventDefault();
-    if(state.gameOn){
+    if( state.gameOn && (state.undoActions.length || state.redoActions.length) ){
         sudokuView.showReset();
     }
 });
@@ -307,6 +315,11 @@ elements.hintsButton.addEventListener('click', e => {
 // Event listener for new button --> show generate section
 elements.newButton.addEventListener('click', e => {
     e.preventDefault();
+    if( state.gameOn && (state.undoActions.length || state.redoActions.length) ){
+        sudokuView.showNewMessage();
+    }else{
+        sudokuView.hideNewMessage();
+    }
     sudokuView.showDifficulty();
 });
 
@@ -331,6 +344,8 @@ elements.generateButton.addEventListener('click', e => {
     sudokuView.updateHintCounter(state.sudoku.getAnswers());
 
     // Update new game state
+    endGame();
+    resetGameState();
     newGame();
 });
 

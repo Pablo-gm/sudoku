@@ -398,6 +398,17 @@ h1 {
   margin-right: auto;
   margin-left: auto;
 }
+.align--middle-vertical {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.display--none {
+  display: none;
+}
 
 .animation--hide-y.animation {
   overflow: hidden;
@@ -407,7 +418,7 @@ h1 {
   opacity: 0;
 }
 .animation--show-y.animation {
-  max-height: 20rem;
+  max-height: 88rem;
   transition: transform 0.2s cubic-bezier(0, 0, 0.2, 1) 0.3s, opacity 0.2s cubic-bezier(0, 0, 0.2, 1) 0.3s, max-height 0s 0.2s;
   transform: translateY(0);
   opacity: 1;
@@ -418,6 +429,14 @@ h1 {
   flex-direction: column;
   margin-bottom: 2.5rem;
   justify-content: center;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 1.25rem;
+}
+.grid--two {
+  grid-template-columns: auto auto;
 }
 
 .alert {
@@ -693,6 +712,7 @@ h1 {
   box-shadow: 0 0.125rem #ADADAD;
 }
 .chip__item--disabled.chip__item {
+  cursor: not-allowed;
   color: #5C5C5C;
   background-color: #D6D6D6;
   box-shadow: 0 0.25rem 0 #5C5C5C;
