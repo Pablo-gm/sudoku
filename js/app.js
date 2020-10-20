@@ -32,6 +32,7 @@ const resetGame = () => {
     endGame();
     sudokuView.unreadyNewBtn();
     sudokuView.removeFilled();
+    sudokuView.enableHintsBtn();
     state.gameOn = 1;
     state.sudoku.setAnswers();
     sudokuView.dumpBoard(state.sudoku.getPuzzleBoard());
